@@ -1,6 +1,6 @@
 LTspice 26.0.1 for Windows
-Circuit: C:\Users\pcrlocaladmin\Downloads\CMOS_project_lib\CMOS_project_lib\example_DFRRLHDX1.net
-Start Time: Fri May  8 08:46:35 2026
+Circuit: C:\Users\lucasp\Projects\CMOS-project\CMOS_project_lib\example_DFRRLHDX1.net
+Start Time: Mon May 11 14:23:59 2026
 solver = Normal
 Maximum thread count: 16
 tnom = 27
@@ -21,10 +21,10 @@ Warning: Ps = 0 is less than W.
 Warning: Pd = 0 is less than W.
 Warning: Ps = 0 is less than W.
 Direct Newton iteration succeeded in finding operating point.
-Total elapsed time: 0.565 seconds.
+Total elapsed time: 0.765 seconds.
 
 Files loaded:
-C:\Users\pcrlocaladmin\Downloads\CMOS_project_lib\CMOS_project_lib\example_DFRRLHDX1.net
-C:\Users\pcrlocaladmin\AppData\Local\LTspice\lib\cmp\standard.mos
-C:\Users\pcrlocaladmin\Downloads\CMOS_project_lib\CMOS_project_lib\library.mod
+C:\Users\lucasp\Projects\CMOS-project\CMOS_project_lib\example_DFRRLHDX1.net
+C:\Users\lucasp\AppData\Local\LTspice\lib\cmp\standard.mos
+C:\Users\lucasp\Projects\CMOS-project\CMOS_project_lib\library.mod
 

@@ -1,6 +1,6 @@
 LTspice 26.0.1 for Windows
-Circuit: C:\Users\pcrlocaladmin\Downloads\CMOS_project_lib\CMOS_project_lib\template.net
-Start Time: Fri May  8 08:52:21 2026
+Circuit: C:\Users\lucasp\Projects\CMOS-project\CMOS_project_lib\template.net
+Start Time: Mon May 11 14:23:31 2026
 solver = Normal
 Maximum thread count: 16
 tnom = 27
@@ -11,9 +11,9 @@ Compress2ndOrder = true
 ERROR: Node n002 is floating and connected to current source I1
 
 Direct Newton iteration succeeded in finding operating point.
-Total elapsed time: 0.053 seconds.
+Total elapsed time: 0.183 seconds.
 
 Files loaded:
-C:\Users\pcrlocaladmin\Downloads\CMOS_project_lib\CMOS_project_lib\template.net
-C:\Users\pcrlocaladmin\Downloads\CMOS_project_lib\CMOS_project_lib\library.mod
+C:\Users\lucasp\Projects\CMOS-project\CMOS_project_lib\template.net
+C:\Users\lucasp\Projects\CMOS-project\CMOS_project_lib\library.mod
 
