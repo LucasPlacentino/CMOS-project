@@ -1,0 +1,27 @@
+Version 4
+SymbolType BLOCK
+LINE Normal 48 0 -48 63
+LINE Normal -49 -64 48 0
+LINE Normal -48 63 -49 -64
+LINE Normal 0 -31 0 -48
+LINE Normal 73 0 96 0
+LINE Normal 0 32 0 48
+LINE Normal -48 0 -64 0
+CIRCLE Normal 72 -12 48 13
+WINDOW 0 0 -64 Bottom 2
+WINDOW 3 -12 0 Center 0
+SYMATTR Prefix X
+SYMATTR Value INV
+SYMATTR Description Custom inverter
+PIN -64 0 LEFT 2
+PINATTR PinName IN
+PINATTR SpiceOrder 1
+PIN 96 0 RIGHT 2
+PINATTR PinName OUT
+PINATTR SpiceOrder 2
+PIN 0 -48 TOP 5
+PINATTR PinName VDD
+PINATTR SpiceOrder 3
+PIN 0 48 BOTTOM 6
+PINATTR PinName VSS
+PINATTR SpiceOrder 4
