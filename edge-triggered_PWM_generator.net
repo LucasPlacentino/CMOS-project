@@ -3,47 +3,15 @@
 I1 N001 N002 {Iref}
 V1 VDD 0 3.3 Rser=0
 R1 N001 N002 10G
-V2 N003 0 PULSE(0 3.3 1u 1n 1n 5u 10u) Rser=0
-X§X1 NC_01 NC_02 NC_03 NC_04 NC_05 NC_06 NC_07 DFRRLHDX1
-C_load NC_08 NC_09 1p
-
-* block symbol definitions
-.subckt DFRRLHDX1 D C RN QN Q VDD VSS
-M1 vdd D N001 vdd PMOS_SME l=350n w=1u
-M2 N001 CI MQIB vdd PMOS_SME l=350n w=1u
-M3 MQIB CIB N005 vss NMOS_SME l=350n w=700n
-M4 N005 D N010 vss NMOS_SME l=350n w=700n
-M5 vdd MQI N002 vdd PMOS_SME l=350n w=500n
-M6 N002 CIB MQIB vdd PMOS_SME l=350n w=500n
-M7 MQIB CI N006 vss NMOS_SME l=350n w=500n
-M8 N006 MQI N010 vss NMOS_SME l=350n w=500n
-M9 N010 RN vss vss NMOS_SME l=350n w=700n
-M10 vdd RN MQIB vdd PMOS_SME l=350n w=1u
-M11 vdd MQIB MQI vdd PMOS_SME l=350n w=1u
-M12 MQI MQIB vss vss NMOS_SME l=350n w=700n
-M13 vdd MQI N003 vdd PMOS_SME l=350n w=900n
-M14 N003 CIB SQIB vdd PMOS_SME l=350n w=900n
-M15 SQIB CI N007 vss NMOS_SME l=350n w=700n
-M16 N007 MQI N009 vss NMOS_SME l=350n w=700n
-M17 vdd SQI N004 vdd PMOS_SME l=350n w=500n
-M18 N004 CI SQIB vdd PMOS_SME l=350n w=500n
-M19 SQIB CIB N008 vss NMOS_SME l=350n w=500n
-M20 N008 SQI N011 vss NMOS_SME l=350n w=500n
-M21 N011 RN vss vss NMOS_SME l=350n w=550n
-M22 vdd RN SQIB vdd PMOS_SME l=350n w=1u
-M23 vdd SQIB SQI vdd PMOS_SME l=350n w=1u
-M24 SQI SQIB vss vss NMOS_SME l=350n w=700n
-M25 N009 RN vss vss NMOS_SME l=350n w=700n
-M26 vdd C CIB vdd PMOS_SME l=350n w=1u
-M27 CIB C vss vss NMOS_SME l=350n w=700n
-M28 vdd CIB CI vdd PMOS_SME l=350n w=1u
-M29 CI CIB vss vss NMOS_SME l=350n w=700n
-M32 vdd SQIB Q vdd PMOS_SME l=350n w=1u
-M33 Q SQIB vss vss NMOS_SME l=350n w=700n
-M34 vdd SQI QN vdd PMOS_SME l=350n w=1u
-M35 QN SQI vss vss NMOS_SME l=350n w=700n
-.ends DFRRLHDX1
-
+V2 CLK 0 PULSE(0 3.3 1u 1n 1n 5u 10u) Rser=0
+C_load output 0 2p
+M1 NC_01 NC_02 NC_03 NC_04 NMOS_SME
+M2 NC_05 NC_06 NC_07 NC_08 PMOS_SME
+X§U3 N004 N005 VDD 0 my_inverter ;§pnba IN)OUT)VDD)VSS
+X§U4 N005 N006 VDD 0 my_inverter ;§pnba IN)OUT)VDD)VSS
+X§U5 N006 CLK NC_09 VDD 0 my_xor ;§pnba A)B)OUT)VDD)VSS
+X§U2 N003 N004 VDD 0 my_inverter ;§pnba IN)OUT)VDD)VSS
+X§U1 CLK N003 VDD 0 my_inverter ;§pnba IN)OUT)VDD)VSS
 .model NMOS NMOS
 .model PMOS PMOS
 .lib C:\Users\lucasp\AppData\Local\LTspice\lib\cmp\standard.mos
@@ -51,5 +19,11 @@ M35 QN SQI vss vss NMOS_SME l=350n w=700n
 .inc library.mod
 .tran 0 20u 0 20n
 * Edge-triggered Pulse-Width Modulation (PWM) generator
+* rise/fall time (10% -> 90%)\nshould be below 10 ns
+* Sweep Iref in {1uA, 3uA, 5uA, 7uA, 9uA}
+* Explain which electrical parameters define the output pulse-width
+* 100kHz input clock
+* Lucas Placentino 2026
+* 1. edge detector (both rising and falling)
 .backanno
 .end
