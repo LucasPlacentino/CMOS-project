@@ -7,11 +7,13 @@ V2 CLK 0 PULSE(0 3.3 1u 1n 1n 5u 10u) Rser=0
 C_load output 0 2p
 M1 NC_01 NC_02 NC_03 NC_04 NMOS_SME
 M2 NC_05 NC_06 NC_07 NC_08 PMOS_SME
-X§X1 N006 CLK edge_sig VDD 0 my_xor
+X§X1 N008 CLK edge_sig VDD 0 my_xor
 X§X2 CLK N003 VDD 0 my_inverter
 X§X3 N003 N004 VDD 0 my_inverter
 X§X4 N004 N005 VDD 0 my_inverter
 X§X5 N005 N006 VDD 0 my_inverter
+X§X6 N006 N007 VDD 0 my_inverter
+X§X7 N007 N008 VDD 0 my_inverter
 
 * block symbol definitions
 .subckt my_xor A B OUT VDD VSS
@@ -26,11 +28,13 @@ M6 N004 B VSS VSS NMOS_SME l=0.35u w=0.4u
 M7 N003 NOT_A N005 VSS NMOS_SME l=0.35u w=0.4u
 M8 N005 NOT_B VSS VSS NMOS_SME l=0.35u w=0.4u
 X§U3 N003 OUT VDD VSS my_inverter
+.inc library.mod
 .ends my_xor
 
 .subckt my_inverter IN OUT VDD VSS
 M3 VDD IN OUT VDD PMOS_SME l=0.35u w=0.4u
 M4 OUT IN VSS VSS NMOS_SME l=0.35u w=0.4u
+.inc library.mod
 .ends my_inverter
 
 .model NMOS NMOS
