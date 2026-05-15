@@ -4,7 +4,7 @@ I1 i_ref 0 {Iref}
 V1 VDD 0 3.3 Rser=0
 R1 i_ref 0 10G
 V2 CLK 0 PULSE(0 3.3 1u 1n 1n 5u 10u) Rser=0
-C_load PWM 0 2p
+C_load output 0 2p
 M1 NC_01 NC_02 NC_03 NC_04 NMOS_SME
 M2 NC_05 NC_06 NC_07 NC_08 PMOS_SME
 X§X1 N004 CLK edge_sig VDD 0 my_xor
@@ -16,8 +16,10 @@ C1 N001 0 20f
 C2 N002 0 20f
 C3 N003 0 20f
 C4 N004 0 20f
-X§X7 N005 PWM VDD 0 my_inverter
-X§X6 edge_sig i_ref N005 VDD 0 my_sawtooth_gen
+X§X7 st_sig N005 VDD 0 my_inverter
+X§X6 edge_sig i_ref st_sig VDD 0 my_sawtooth_gen
+X§X8 N006 edge_sig NC_09 weak_pwm VDD 0 my_sr_latch
+X§X9 N005 N006 VDD 0 my_inverter
 
 * block symbol definitions
 .subckt my_xor A B OUT VDD VSS
@@ -48,6 +50,20 @@ M3 VDD IREF IREF VDD PMOS_SME l=2u w=4u
 .inc library.mod
 .ends my_sawtooth_gen
 
+.subckt my_sr_latch R S NOT_Q Q VDD VSS
+X§X1 S Q NOT_Q VDD VSS my_nor
+X§X2 NOT_Q R Q VDD VSS my_nor
+.inc library.mod
+.ends my_sr_latch
+
+.subckt my_nor A B OUT VDD VSS
+M1 VDD A N001 VDD PMOS_SME l=0.35u w=0.4u
+M2 N001 B OUT VDD PMOS_SME l=0.35u w=0.4u
+M3 OUT B VSS VSS NMOS_SME l=0.35u w=0.4u
+M4 OUT A VSS VSS NMOS_SME l=0.35u w=0.4u
+.inc library.mod
+.ends my_nor
+
 .model NMOS NMOS
 .model PMOS PMOS
 .lib C:\Users\lucasp\AppData\Local\LTspice\lib\cmp\standard.mos
@@ -61,5 +77,7 @@ M3 VDD IREF IREF VDD PMOS_SME l=2u w=4u
 * 100kHz input clock
 * Lucas Placentino 2026
 * 1. edge detector (both rising and falling)
+* 2. current-controlled sawtooth signal generator, thresholded
+* SR latch
 .backanno
 .end
