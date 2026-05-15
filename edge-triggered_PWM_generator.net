@@ -77,7 +77,8 @@ M4 OUT A VSS VSS NMOS_SME l=0.35u w=0.4u
 * 100kHz input clock
 * Lucas Placentino 2026
 * 1. edge detector (both rising and falling)
-* 2. current-controlled sawtooth signal generator, thresholded
+* 2. current-controlled sawtooth signal generator, thresholded, then through an S-R latch => weak PWM signal
 * SR latch
+* 3. buffer chain...
 .backanno
 .end
