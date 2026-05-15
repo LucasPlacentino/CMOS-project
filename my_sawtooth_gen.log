@@ -1,6 +1,6 @@
 LTspice 26.0.1 for Windows
 Circuit: C:\Users\lucasp\Projects\CMOS-project\my_sawtooth_gen.net
-Start Time: Fri May 15 15:27:35 2026
+Start Time: Fri May 15 15:29:59 2026
 solver = Normal
 Maximum thread count: 16
 tnom = 27
@@ -8,6 +8,9 @@ temp = 27
 method = modified trap
 Compress1stOrder = true
 Compress2ndOrder = true
+WARNING: Node v_bias is floating.
+WARNING: Node in is floating.
+
 Warning: Pd = 0 is less than W.
 Warning: Ps = 0 is less than W.
 Warning: Pd = 0 is less than W.
@@ -15,7 +18,7 @@ Warning: Ps = 0 is less than W.
 Warning: Pd = 0 is less than W.
 Warning: Ps = 0 is less than W.
 Direct Newton iteration succeeded in finding operating point.
-Total elapsed time: 0.294 seconds.
+Total elapsed time: 0.235 seconds.
 
 Files loaded:
 C:\Users\lucasp\Projects\CMOS-project\my_sawtooth_gen.net
