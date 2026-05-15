@@ -1,0 +1,48 @@
+* CMOS Mini-Project Top-Level: Edge-Triggered PWM Generator
+
+* --- 1. Power Supply ---
+* Single 3.3V power supply
+VDD VDD 0 3.3
+VSS VSS 0 0
+
+* --- 2. Input Sources ---
+* 100 kHz Input Clock: 5ns rise/fall, 10k output resistance
+VCLK_SRC CLK_INTERNAL 0 PULSE(0 3.3 0 5n 5n 4.995u 10u)
+R_CLK CLK_INTERNAL CLK_IN 10k
+
+* Reference Current: Swept parameter, 10 G-Ohm parallel output resistance
+I_REF IREF_NODE 0 {I_VAR}
+R_IREF IREF_NODE 0 10G
+
+* --- 3. Circuit Instantiations ---
+* Edge Detector: Generates a short pulse on every clock transition
+X_EDGE CLK_IN TRIG_PULSE VDD VSS EDGE_DET
+
+* PWM Core: PMOS current mirror and timing capacitor discharge
+X_PWM TRIG_PULSE VCAP IREF_NODE VDD VSS PWM_CORE
+
+* Threshold Detector (Pseudo-Comparator): Triggers when VCAP > V_sp
+X_COMP VCAP RESET_SIG VDD VSS COMP
+
+* SR Latch: Sets on clock edge, Resets when VCAP reaches threshold
+X_LATCH TRIG_PULSE RESET_SIG PWM_OUT PWM_OUT_B VDD VSS SR_LATCH
+
+* Output Buffer: Drives the 2pF load with <10ns rise/fall
+X_BUFF PWM_OUT PWM_FINAL VDD VSS OUTPUT_BUFFER
+
+* --- 4. Load ---
+* 2 pF purely capacitive load
+CLOAD PWM_FINAL 0 2p
+
+* --- 5. Simulation Directives ---
+* Parameter sweep to verify linear relationship
+.step param I_VAR list 1u 3u 5u 7u 9u
+
+* Transient analysis covering multiple clock periods
+.tran 0 25u 0 10n
+
+* Include AMS 350nm model library
+.include library.mod
+
+* Include the subcircuits file generated previously
+.include subcircuits.net

@@ -1,0 +1,10 @@
+.subckt PWM_CORE TRIG VCAP IREF VDD VSS
+* Diode-connected PMOS for reference current
+M1 IREF IREF VDD VDD PMOS_SME L=0.35u W=2.0u
+* Mirror PMOS acting as the current source charging the capacitor
+M2 VCAP IREF VDD VDD PMOS_SME L=0.35u W=2.0u
+* NMOS switch to instantly discharge the capacitor on trigger
+M3 VCAP TRIG VSS VSS NMOS_SME L=0.35u W=0.4u
+* Timing Capacitor (calculated for ~2.7pF based on 1.65V threshold)
+C1 VCAP VSS 2.7p
+.ends PWM_CORE

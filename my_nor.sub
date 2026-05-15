@@ -1,0 +1,8 @@
+.subckt NOR2 A B OUT VDD VSS
+* Pull-down network (Parallel)
+M1 OUT A VSS VSS NMOS_SME L=0.35u W=0.4u
+M2 OUT B VSS VSS NMOS_SME L=0.35u W=0.4u
+* Pull-up network (Series)
+M3 MID A VDD VDD PMOS_SME L=0.35u W=2.0u
+M4 OUT B MID VDD PMOS_SME L=0.35u W=2.0u
+.ends NOR2

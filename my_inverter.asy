@@ -11,10 +11,6 @@ CIRCLE Normal 72 -12 48 13
 TEXT 0 -31 Top 0 VDD
 TEXT 0 32 Bottom 0 VSS
 WINDOW 0 0 -64 Bottom 2
-WINDOW 3 -18 0 Center 1
-SYMATTR Value INV
-SYMATTR Prefix X
-SYMATTR Description Custom inverter
 PIN -64 0 NONE 2
 PINATTR PinName IN
 PINATTR SpiceOrder 1

@@ -1,0 +1,75 @@
+.subckt INV IN OUT VDD VSS
+M1 OUT IN VSS VSS NMOS_SME L=0.35u W=0.4u
+M2 OUT IN VDD VDD PMOS_SME L=0.35u W=1.0u
+.ends INV
+
+.subckt NOR2 A B OUT VDD VSS
+* Pull-down network (Parallel)
+M1 OUT A VSS VSS NMOS_SME L=0.35u W=0.4u
+M2 OUT B VSS VSS NMOS_SME L=0.35u W=0.4u
+* Pull-up network (Series)
+M3 MID A VDD VDD PMOS_SME L=0.35u W=2.0u
+M4 OUT B MID VDD PMOS_SME L=0.35u W=2.0u
+.ends NOR2
+
+.subckt SR_LATCH S R Q QN VDD VSS
+X1 R QN Q VDD VSS NOR2
+X2 S Q QN VDD VSS NOR2
+.ends SR_LATCH
+
+.subckt EDGE_DET CLK_IN PULSE_OUT VDD VSS
+* Delay line
+X1 CLK_IN D1 VDD VSS INV
+X2 D1 D2 VDD VSS INV
+X3 D2 D3 VDD VSS INV
+X4 D3 CLK_DEL VDD VSS INV
+
+* 12-T Static CMOS XOR Gate
+* Internal Inverters for inverted inputs
+X5 CLK_IN CLK_IN_B VDD VSS INV
+X6 CLK_DEL CLK_DEL_B VDD VSS INV
+
+* XOR Pull-down network
+M1 N1 CLK_IN VSS VSS NMOS_SME L=0.35u W=0.4u
+M2 PULSE_OUT CLK_DEL_B N1 VSS NMOS_SME L=0.35u W=0.4u
+M3 N2 CLK_IN_B VSS VSS NMOS_SME L=0.35u W=0.4u
+M4 PULSE_OUT CLK_DEL N2 VSS NMOS_SME L=0.35u W=0.4u
+
+* XOR Pull-up network
+M5 P1 CLK_IN VDD VDD PMOS_SME L=0.35u W=1.0u
+M6 P1 CLK_DEL VDD VDD PMOS_SME L=0.35u W=1.0u
+M7 PULSE_OUT CLK_IN_B P1 VDD PMOS_SME L=0.35u W=1.0u
+M8 PULSE_OUT CLK_DEL_B P1 VDD PMOS_SME L=0.35u W=1.0u
+.ends EDGE_DET
+
+.subckt PWM_CORE TRIG VCAP IREF VDD VSS
+* Diode-connected PMOS for reference current
+M1 IREF IREF VDD VDD PMOS_SME L=0.35u W=2.0u
+* Mirror PMOS acting as the current source charging the capacitor
+M2 VCAP IREF VDD VDD PMOS_SME L=0.35u W=2.0u
+* NMOS switch to instantly discharge the capacitor on trigger
+M3 VCAP TRIG VSS VSS NMOS_SME L=0.35u W=0.4u
+* Timing Capacitor (calculated for ~2.7pF based on 1.65V threshold)
+C1 VCAP VSS 2.7p
+.ends PWM_CORE
+
+.subckt COMP VCAP RESET_OUT VDD VSS
+* Skewed inverter. W_p is adjusted to shift V_sp to the exact required threshold.
+M1 V_INV VCAP VSS VSS NMOS_SME L=0.35u W=0.4u
+M2 V_INV VCAP VDD VDD PMOS_SME L=0.35u W=1.5u 
+* Squaring inverter to ensure clean logic levels for the latch
+X1 V_INV RESET_OUT VDD VSS INV
+.ends COMP
+
+.subckt OUTPUT_BUFFER IN OUT VDD VSS
+* Stage 1: Minimum size
+M1 N1 IN VSS VSS NMOS_SME L=0.35u W=0.4u
+M2 N1 IN VDD VDD PMOS_SME L=0.35u W=1.0u
+* Stage 2: Scaled ~2.7x
+M3 N2 N1 VSS VSS NMOS_SME L=0.35u W=1.1u
+M4 N2 N1 VDD VDD PMOS_SME L=0.35u W=2.7u
+* Stage 3: Scaled ~7.3x (from base)
+M5 OUT N2 VSS VSS NMOS_SME L=0.35u W=3.0u
+M6 OUT N2 VDD VDD PMOS_SME L=0.35u W=7.3u
+.ends OUTPUT_BUFFER
+

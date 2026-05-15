@@ -12,9 +12,6 @@ ARC Normal -251 71 71 -122 -76 90 91 23
 TEXT -16 -61 Top 0 VDD
 TEXT -16 60 Bottom 0 VSS
 WINDOW 0 61 -52 Bottom 2
-WINDOW 3 -13 -1 Center 1
-SYMATTR Value XOR
-SYMATTR Description Csutom XOR
 PIN -112 -32 NONE 6
 PINATTR PinName A
 PINATTR SpiceOrder 1
