@@ -1,6 +1,6 @@
 LTspice 26.0.1 for Windows
 Circuit: C:\Users\lucasp\Projects\CMOS-project\my_sawtooth_gen.net
-Start Time: Fri May 15 14:50:08 2026
+Start Time: Fri May 15 15:27:35 2026
 solver = Normal
 Maximum thread count: 16
 tnom = 27
@@ -15,7 +15,7 @@ Warning: Ps = 0 is less than W.
 Warning: Pd = 0 is less than W.
 Warning: Ps = 0 is less than W.
 Direct Newton iteration succeeded in finding operating point.
-Total elapsed time: 0.110 seconds.
+Total elapsed time: 0.294 seconds.
 
 Files loaded:
 C:\Users\lucasp\Projects\CMOS-project\my_sawtooth_gen.net
