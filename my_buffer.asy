@@ -1,0 +1,24 @@
+Version 4
+SymbolType BLOCK
+LINE Normal -32 64 -32 -64
+LINE Normal 64 0 -32 64
+LINE Normal -32 -64 64 0
+LINE Normal -32 0 -64 0
+LINE Normal 96 0 64 0
+LINE Normal 16 32 16 64
+LINE Normal 16 -32 16 -64
+TEXT 5 -23 Left 0 VDD
+TEXT 6 23 Left 0 VSS
+WINDOW 0 53 -25 Bottom 2
+PIN -64 0 NONE 8
+PINATTR PinName IN
+PINATTR SpiceOrder 1
+PIN 96 0 NONE 8
+PINATTR PinName OUT
+PINATTR SpiceOrder 2
+PIN 16 -64 NONE 8
+PINATTR PinName VDD
+PINATTR SpiceOrder 3
+PIN 16 64 NONE 8
+PINATTR PinName VSS
+PINATTR SpiceOrder 4
