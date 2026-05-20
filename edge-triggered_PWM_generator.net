@@ -18,7 +18,7 @@ X§X7 st_sig N006 VDD 0 my_inverter
 X§X6 edge_sig input st_sig VDD 0 my_sawtooth_gen
 X§X8 N007 edge_sig NC_01 weak_pwm VDD 0 my_sr_latch
 X§X9 N006 N007 VDD 0 my_inverter
-X§X10 N001 CLK input 90deg_input_CLK VDD 0 180deg_input_CLK 270deg_input_CLK my_dll
+X§X10 N001 CLK NC_02 90deg_input_CLK VDD 0 180deg_input_CLK 270deg_input_CLK my_dll
 V3 N001 0 PULSE(0 3.3 0.1u 1n 1n 100m 100m)
 
 * block symbol definitions
@@ -62,7 +62,7 @@ C1 vctrl VSS 4p
 X§X3 down N002 up vctrl VDD VSS my_cp
 M1 vctrl rst_h VSS VSS NMOS_SME l=0.35u w=0.4u
 X§X2 _RESET rst_h VDD VSS my_inverter
-I1 VSS N002 1µ
+I1 VSS N002 2nA
 X§X4 CLK vctrl 180clk 270clk 90clk N001 VDD VSS my_vcdl
 X§X5 N001 feedback_clk VDD VSS my_schmitt_trigger
 X§X6 90clk 90degCLK VDD VSS my_schmitt_trigger
@@ -100,7 +100,7 @@ X§X1 UP N003 VDD VSS my_inverter
 .ends my_cp
 
 .subckt my_vcdl REF_CLK V_CTRL 180_CLK 270_CLK 90_CLK OUT_CLK VDD VSS
-M9 VDD vctrl_pmos vctrl_pmos VDD PMOS_SME l=2u w=0.8u
+M9 VDD vctrl_pmos vctrl_pmos VDD PMOS_SME l=2u w=0.4u
 M10 vctrl_pmos V_CTRL VSS VSS NMOS_SME l=2u w=0.4u
 X§X1 REF_CLK N001 VDD VSS vctrl_pmos V_CTRL my_current_starved_inverter
 X§X2 90_CLK N002 VDD VSS vctrl_pmos V_CTRL my_current_starved_inverter
@@ -177,7 +177,7 @@ X§X2 N001 OUT VDD VSS my_inverter
 .subckt my_current_starved_inverter IN OUT VDD VSS VBP VBN
 M3 N001 IN OUT VDD PMOS_SME l=0.35u w=0.4u
 M4 OUT IN N002 VSS NMOS_SME l=0.35u w=0.4u
-M1 VDD VBP N001 VDD PMOS_SME l=2u w=0.8u
+M1 VDD VBP N001 VDD PMOS_SME l=2u w=2u
 M2 N002 VBN VSS VSS NMOS_SME l=2u w=0.4u
 .inc library.mod
 .ends my_current_starved_inverter
@@ -187,7 +187,7 @@ M2 N002 VBN VSS VSS NMOS_SME l=2u w=0.4u
 .lib C:\Users\lucasp\AppData\Local\LTspice\lib\cmp\standard.mos
 .param Iref 5uA
 .inc library.mod
-.tran 0 2m 0 20n
+.tran 0 500u 0 20n
 * Edge-triggered Pulse-Width Modulation (PWM) generator
 * rise/fall time (10% -> 90%)\nshould be below 10 ns
 * Sweep Iref in {1uA, 3uA, 5uA, 7uA, 9uA}
