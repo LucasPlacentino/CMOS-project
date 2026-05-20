@@ -19,6 +19,8 @@ X§X6 edge_sig input st_sig VDD 0 my_sawtooth_gen
 X§X8 N007 edge_sig NC_01 weak_pwm VDD 0 my_sr_latch
 X§X9 N006 N007 VDD 0 my_inverter
 X§X10 N005 CLK input 90deg_input_CLK VDD 0 180deg_input_CLK 270deg_input_CLK my_dll
+R2 N005 VDD 50k
+C5 N005 0 20p
 
 * block symbol definitions
 .subckt my_xor A B OUT VDD VSS
@@ -56,10 +58,13 @@ X§X2 NOT_Q R Q VDD VSS my_nor
 .ends my_sr_latch
 
 .subckt my_dll _RESET CLK CP_IREF 90degCLK VDD VSS 180degCLK 270degCLK
-X§X1 feedback_clk CLK down up VDD VSS my_pfd
-C1 N001 VSS 500f
-X§X2 CLK N001 180degCLK 270degCLK 90degCLK feedback_clk VDD VSS my_vcdl
-X§X3 down CP_IREF up N001 VDD VSS my_cp
+X§X1 feedback_clk CLK down up VDD NC_01 _RESET my_pfd
+C1 vctrl VSS 4p
+X§X3 down N001 up vctrl VDD VSS my_cp
+X§X4 CLK vctrl 180degCLK 270degCLK 90degCLK feedback_clk VDD VSS my_vcdl_alt
+M1 vctrl rst_h VSS VSS NMOS_SME l=0.35u w=0.4u
+X§X2 _RESET rst_h VDD VSS my_inverter
+I1 N001 VSS 1µ
 .inc library.mod
 .ends my_dll
 
@@ -71,49 +76,41 @@ M4 OUT A VSS VSS NMOS_SME l=0.35u w=0.4u
 .inc library.mod
 .ends my_nor
 
-.subckt my_pfd FDBCK REF DOWN UP VDD VSS
-X§X1 VDD REF reset NC_01 UP VDD VSS DFRRLHDX1
-X§X2 VDD FDBCK reset NC_02 DOWN VDD VSS DFRRLHDX1
-X§X3 UP DOWN reset VDD VSS my_and
+.subckt my_pfd FDBCK REF DOWN UP VDD VSS _RESET
+X§X1 VDD REF N001 NC_01 UP VDD VSS DFRRLHDX1
+X§X2 VDD FDBCK N001 NC_02 DOWN VDD VSS DFRRLHDX1
+X§X3 UP DOWN reset VDD VSS my_nand
+X§X4 _RESET reset N001 VDD VSS my_and
 .inc library.mod
 .ends my_pfd
 
-.subckt my_vcdl REF_CLK V_CTRL 180_CLK 270_CLK 90_CLK OUT_CLK VDD VSS
-X§X1 REF_CLK N005 N001 N009 my_inverter
-M1 N009 V_CTRL VSS VSS NMOS_SME l=0.35u w=0.4u
-X§X2 90_CLK N006 N002 N010 my_inverter
-X§X3 180_CLK N007 N003 N011 my_inverter
-X§X4 270_CLK N008 N004 N012 my_inverter
-M2 VDD ctrl_net N001 VDD PMOS
-M3 VDD ctrl_net N002 VDD PMOS
-M4 VDD ctrl_net N003 VDD PMOS
-M5 VDD ctrl_net N004 VDD PMOS
-M6 N010 V_CTRL VSS VSS NMOS_SME l=0.35u w=0.4u
-M7 N011 V_CTRL VSS VSS NMOS_SME l=0.35u w=0.4u
-M8 N012 V_CTRL VSS VSS NMOS_SME l=0.35u w=0.4u
-M9 VDD ctrl_net ctrl_net VDD PMOS
-M10 ctrl_net V_CTRL VSS VSS NMOS_SME l=0.35u w=0.4u
-X§X5 N005 90_CLK VDD VSS my_buffer
-X§X6 N006 180_CLK VDD VSS my_buffer
-X§X7 N007 270_CLK VDD VSS my_buffer
-X§X8 N008 OUT_CLK VDD VSS my_buffer
-C1 N005 VSS 20p
-C2 N006 VSS 20p
-C3 N007 VSS 20p
-C4 N008 VSS 20p
-.inc library.mod
-.ends my_vcdl
-
 .subckt my_cp DOWN IREF UP OUT VDD VSS
-M1 VDD N001 N002 VDD PMOS_SME l=0.35u w=0.4u
-M2 OUT DOWN N004 VSS NMOS_SME l=0.35u w=0.4u
-M3 N002 UP OUT VDD PMOS_SME l=0.35u w=0.4u
-M4 N004 N005 VSS VSS NMOS_SME l=0.35u w=0.4u
-M5 VDD N001 N003 VDD PMOS_SME l=0.35u w=0.4u
-M6 N003 N005 VSS VSS NMOS_SME l=0.35u w=0.4u
-M7 IREF N005 VSS VSS NMOS_SME l=0.35u w=0.4u
+M1 VDD N001 N002 VDD PMOS_SME l=2u w=0.8u
+M2 OUT DOWN N005 VSS NMOS_SME l=0.35u w=0.4u
+M3 N002 N004 OUT VDD PMOS_SME l=0.35u w=0.4u
+M4 N005 N006 VSS VSS NMOS_SME l=2u w=0.4u
+M5 VDD N001 N003 VDD PMOS_SME l=2u w=4u
+M6 N003 N006 VSS VSS NMOS_SME l=2u w=2u
+M7 IREF N006 VSS VSS NMOS_SME l=2u w=2u
+X§X1 UP N004 VDD VSS my_inverter
 .inc library.mod
 .ends my_cp
+
+.subckt my_vcdl_alt REF_CLK V_CTRL 180_CLK 270_CLK 90_CLK OUT_CLK VDD VSS
+X§X9 REF_CLK N001 VDD VSS my_buffer
+X§X10 N001 90_CLK VDD VSS my_buffer
+X§X11 90_CLK N002 VDD VSS my_buffer
+X§X12 N002 180_CLK VDD VSS my_buffer
+X§X13 180_CLK N003 VDD VSS my_buffer
+X§X14 N003 270_CLK VDD VSS my_buffer
+X§X15 270_CLK N004 VDD VSS my_buffer
+X§X16 N004 OUT_CLK VDD VSS my_buffer
+M11 V_CTRL N001 V_CTRL V_CTRL NMOS_SME l=3.5u w=4u
+M12 V_CTRL N002 V_CTRL V_CTRL NMOS_SME l=3.5u w=4u
+M13 V_CTRL N003 V_CTRL V_CTRL NMOS_SME l=3.5u w=4u
+M14 V_CTRL N004 V_CTRL V_CTRL NMOS_SME l=3.5u w=4u
+.inc library.mod
+.ends my_vcdl_alt
 
 .subckt DFRRLHDX1 D C RN QN Q VDD VSS
 M1 vdd D N001 vdd PMOS_SME l=350n w=1u
@@ -151,6 +148,14 @@ M34 vdd SQI QN vdd PMOS_SME l=350n w=1u
 M35 QN SQI vss vss NMOS_SME l=350n w=700n
 .ends DFRRLHDX1
 
+.subckt my_nand A B OUT VDD VSS
+M1 N001 B VSS VSS NMOS_SME l=0.35u w=0.4u
+M2 VDD A OUT VDD PMOS_SME l=0.35u w=0.4u
+M3 VDD B OUT VDD PMOS_SME l=0.35u w=0.4u
+M4 OUT A N001 VSS NMOS_SME l=0.35u w=0.4u
+.inc library.mod
+.ends my_nand
+
 .subckt my_and A B OUT VDD VSS
 X§X1 A B N001 VDD VSS my_nand
 X§X2 N001 OUT VDD VSS my_inverter
@@ -161,14 +166,6 @@ X§X2 N001 OUT VDD VSS my_inverter
 X§X1 IN N001 VDD VSS my_inverter
 X§X2 N001 OUT VDD VSS my_inverter
 .ends my_buffer
-
-.subckt my_nand A B OUT VDD VSS
-M1 N001 B VSS VSS NMOS_SME l=0.35u w=0.4u
-M2 VDD A OUT VDD PMOS_SME l=0.35u w=0.4u
-M3 VDD B OUT VDD PMOS_SME l=0.35u w=0.4u
-M4 OUT A N001 VSS NMOS_SME l=0.35u w=0.4u
-.inc library.mod
-.ends my_nand
 
 .model NMOS NMOS
 .model PMOS PMOS
