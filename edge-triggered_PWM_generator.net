@@ -56,10 +56,10 @@ X§X2 NOT_Q R Q VDD VSS my_nor
 .ends my_sr_latch
 
 .subckt my_dll _RESET CLK CP_IREF 90degCLK VDD VSS 180degCLK 270degCLK
-X§X1 feedback_clk CLK N002 N001 VDD VSS my_pfd
-C1 N003 VSS 500f
-X§X2 CLK N003 180degCLK 270degCLK 90degCLK feedback_clk VDD VSS my_vcdl
-X§X3 N002 CP_IREF N001 N003 VDD VSS my_cp
+X§X1 feedback_clk CLK down up VDD VSS my_pfd
+C1 N001 VSS 500f
+X§X2 CLK N001 180degCLK 270degCLK 90degCLK feedback_clk VDD VSS my_vcdl
+X§X3 down CP_IREF up N001 VDD VSS my_cp
 .inc library.mod
 .ends my_dll
 
@@ -97,6 +97,10 @@ X§X5 N005 90_CLK VDD VSS my_buffer
 X§X6 N006 180_CLK VDD VSS my_buffer
 X§X7 N007 270_CLK VDD VSS my_buffer
 X§X8 N008 OUT_CLK VDD VSS my_buffer
+C1 N005 VSS 20p
+C2 N006 VSS 20p
+C3 N007 VSS 20p
+C4 N008 VSS 20p
 .inc library.mod
 .ends my_vcdl
 
