@@ -101,16 +101,21 @@ X§X1 UP N003 VDD VSS my_inverter
 .ends my_cp
 
 .subckt my_vcdl REF_CLK V_CTRL 180_CLK 270_CLK 90_CLK OUT_CLK VDD VSS
-M9 VDD vctrl_pmos vctrl_pmos VDD PMOS_SME l=5u w=0.4u
-M10 vctrl_pmos V_CTRL VSS VSS NMOS_SME l=5u w=0.4u
-X§X1 REF_CLK N001 VDD VSS vctrl_pmos V_CTRL my_current_starved_inverter
-X§X2 90_CLK N002 VDD VSS vctrl_pmos V_CTRL my_current_starved_inverter
-X§X3 180_CLK N003 VDD VSS vctrl_pmos V_CTRL my_current_starved_inverter
-X§X4 270_CLK N004 VDD VSS vctrl_pmos V_CTRL my_current_starved_inverter
-X§X5 N001 90_CLK VDD VSS vctrl_pmos V_CTRL my_current_starved_inverter
-X§X6 N002 180_CLK VDD VSS vctrl_pmos V_CTRL my_current_starved_inverter
-X§X7 N003 270_CLK VDD VSS vctrl_pmos V_CTRL my_current_starved_inverter
-X§X8 N004 OUT_CLK VDD VSS vctrl_pmos V_CTRL my_current_starved_inverter
+M9 VDD VBP VBP VDD PMOS_SME l=5u w=0.4u
+M10 VBP V_CTRL VSS VSS NMOS_SME l=5u w=0.4u
+X§X1 REF_CLK N001 VDD VSS VBP V_CTRL my_current_starved_inverter
+X§X2 90_CLK N002 VDD VSS VBP V_CTRL my_current_starved_inverter
+X§X3 180_CLK N003 VDD VSS VBP V_CTRL my_current_starved_inverter
+X§X4 270_CLK N004 VDD VSS VBP V_CTRL my_current_starved_inverter
+X§X5 N001 90_CLK VDD VSS VBP V_CTRL my_current_starved_inverter
+X§X6 N002 180_CLK VDD VSS VBP V_CTRL my_current_starved_inverter
+X§X7 N003 270_CLK VDD VSS VBP V_CTRL my_current_starved_inverter
+X§X8 N004 OUT_CLK VDD VSS VBP V_CTRL my_current_starved_inverter
+M1 N_REF N007 VSS VSS NMOS_SME l=2u w=4u
+M2 N_REF N_REF VSS VSS NMOS_SME l=2u w=1u
+M3 N006 N_REF VSS VSS NMOS_SME l=2u w=1u
+M5 VDD N_REF N_REF VDD PMOS_SME l=2u w=0.4u
+M6 VDD N_REF N005 VDD PMOS_SME l=2u w=2u
 .inc library.mod
 .ends my_vcdl
 
@@ -190,7 +195,7 @@ M6 VDD VBP N001 VDD PMOS_SME l=2u w=2u
 .lib C:\Users\lucasp\AppData\Local\LTspice\lib\cmp\standard.mos
 .param Iref 5uA
 .inc library.mod
-.tran 0 1500u 0 20n
+.tran 0 500u 0 20n
 * Edge-triggered Pulse-Width Modulation (PWM) generator
 * rise/fall time (10% -> 90%)\nshould be below 10 ns
 * Sweep Iref in {1uA, 3uA, 5uA, 7uA, 9uA}
