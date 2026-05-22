@@ -59,12 +59,11 @@ X§X2 NOT_Q R Q VDD VSS my_nor
 .subckt my_dll _RESET CLK CP_IREF 90degCLK VDD VSS 180degCLK 270degCLK
 X§X1 feedback_clk CLK down up VDD VSS _RESET my_pfd
 C1 vctrl VSS 4p
-X§X3 down N002 up vctrl VDD VSS my_cp
+X§X3 down N001 up vctrl VDD VSS my_cp
 M1 vctrl rst_h VSS VSS NMOS_SME l=0.35u w=0.4u
 X§X2 _RESET rst_h VDD VSS my_inverter
-I1 VSS N002 1µ
-X§X4 CLK vctrl 180clk 270clk 90clk N001 VDD VSS my_vcdl
-X§X5 N001 feedback_clk VDD VSS my_schmitt_trigger
+I1 VSS N001 1µ
+X§X4 CLK vctrl 180clk 270clk 90clk feedback_clk VDD VSS my_vcdl
 X§X6 90clk 90degCLK VDD VSS my_schmitt_trigger
 X§X7 180clk 180degCLK VDD VSS my_schmitt_trigger
 X§X8 270clk 270degCLK VDD VSS my_schmitt_trigger
@@ -104,18 +103,22 @@ X§X1 UP N003 VDD VSS my_inverter
 M9 VDD VBP VBP VDD PMOS_SME l=5u w=0.4u
 M10 VBP V_CTRL VSS VSS NMOS_SME l=5u w=0.4u
 X§X1 REF_CLK N001 VDD VSS VBP V_CTRL my_current_starved_inverter
-X§X2 90_CLK N002 VDD VSS VBP V_CTRL my_current_starved_inverter
-X§X3 180_CLK N003 VDD VSS VBP V_CTRL my_current_starved_inverter
-X§X4 270_CLK N004 VDD VSS VBP V_CTRL my_current_starved_inverter
-X§X5 N001 90_CLK VDD VSS VBP V_CTRL my_current_starved_inverter
-X§X6 N002 180_CLK VDD VSS VBP V_CTRL my_current_starved_inverter
-X§X7 N003 270_CLK VDD VSS VBP V_CTRL my_current_starved_inverter
-X§X8 N004 OUT_CLK VDD VSS VBP V_CTRL my_current_starved_inverter
-M1 N_REF N007 VSS VSS NMOS_SME l=2u w=4u
+X§X2 90_CLK N003 VDD VSS VBP V_CTRL my_current_starved_inverter
+X§X3 180_CLK N005 VDD VSS VBP V_CTRL my_current_starved_inverter
+X§X4 270_CLK N007 VDD VSS VBP V_CTRL my_current_starved_inverter
+X§X5 N001 N002 VDD VSS VBP V_CTRL my_current_starved_inverter
+X§X6 N003 N004 VDD VSS VBP V_CTRL my_current_starved_inverter
+X§X7 N005 N006 VDD VSS VBP V_CTRL my_current_starved_inverter
+X§X8 N007 N008 VDD VSS VBP V_CTRL my_current_starved_inverter
+M1 N_REF N011 VSS VSS NMOS_SME l=2u w=4u
 M2 N_REF N_REF VSS VSS NMOS_SME l=2u w=1u
-M3 N006 N_REF VSS VSS NMOS_SME l=2u w=1u
+M3 N010 N_REF VSS VSS NMOS_SME l=2u w=1u
 M5 VDD N_REF N_REF VDD PMOS_SME l=2u w=0.4u
-M6 VDD N_REF N005 VDD PMOS_SME l=2u w=2u
+M6 VDD N_REF N009 VDD PMOS_SME l=2u w=2u
+X§X9 N002 90_CLK VDD VSS my_schmitt_trigger
+X§X10 N004 180_CLK VDD VSS my_schmitt_trigger
+X§X11 N006 270_CLK VDD VSS my_schmitt_trigger
+X§X12 N008 OUT_CLK VDD VSS my_schmitt_trigger
 .inc library.mod
 .ends my_vcdl
 
@@ -214,5 +217,6 @@ M6 VDD VBP N001 VDD PMOS_SME l=2u w=2u
 * custom\nDLL
 * EXTRA FEATURES
 * TODO: REMOVE
+* use the inverter's\n1.65V threshold
 .backanno
 .end
