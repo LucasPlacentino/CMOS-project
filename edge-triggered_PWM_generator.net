@@ -70,7 +70,7 @@ X§X7 180clk 180degCLK VDD VSS my_schmitt_trigger
 X§X8 270clk 270degCLK VDD VSS my_schmitt_trigger
 X§X9 NC_02 NC_03 NC_04 NC_05 NC_06 NC_07 NC_08 DFRRLHDX1
 .inc library.mod
-.ic V(vctrl)=0.9
+.ic V(vctrl)=0.8
 .ends my_dll
 
 .subckt my_nor A B OUT VDD VSS
@@ -102,8 +102,8 @@ X§X1 UP N003 VDD VSS my_inverter
 .ends my_cp
 
 .subckt my_vcdl REF_CLK V_CTRL 180_CLK 270_CLK 90_CLK OUT_CLK VDD VSS
-M9 VDD VBP VBP VDD PMOS_SME l=5u w=0.4u
-M10 VBP V_CTRL VSS VSS NMOS_SME l=5u w=0.4u
+M9 VDD VBP VBP VDD PMOS_SME l=2u w=2u
+M10 VBP V_CTRL VSS VSS NMOS_SME l=2u w=0.4u
 X§X1 REF_CLK N001 VDD VSS VBP VBN my_current_starved_inverter
 X§X2 90_CLK N003 VDD VSS VBP VBN my_current_starved_inverter
 X§X3 180_CLK N005 VDD VSS VBP VBN my_current_starved_inverter
@@ -121,16 +121,16 @@ X§X9 N002 90_CLK VDD VSS my_schmitt_trigger
 X§X10 N004 180_CLK VDD VSS my_schmitt_trigger
 X§X11 N006 270_CLK VDD VSS my_schmitt_trigger
 X§X12 N008 OUT_CLK VDD VSS my_schmitt_trigger
-C1 N002 VSS 1p
-C2 N004 VSS 1p
-C3 N006 VSS 1p
-C4 N008 VSS 1p
-C5 N001 VSS 1p
-C6 N003 VSS 1p
-C7 N005 VSS 1p
-C8 N007 VSS 1p
-M11 VBN VBN VSS VSS NMOS_SME l=5u w=0.4u
-M12 VDD VBP VBN VDD PMOS_SME l=5u w=0.4u
+C1 N002 VSS 500f
+C2 N004 VSS 500f
+C3 N006 VSS 500f
+C4 N008 VSS 500F
+C5 N001 VSS 500f
+C6 N003 VSS 500f
+C7 N005 VSS 500F
+C8 N007 VSS 500f
+M11 VBN VBN VSS VSS NMOS_SME l=2u w=0.4u
+M12 VDD VBP VBN VDD PMOS_SME l=2u w=2u
 .inc library.mod
 .ends my_vcdl
 
@@ -139,7 +139,7 @@ M1 VDD IN N001 VDD PMOS_SME l=0.35u w=2u
 M2 n_inv IN N002 VSS NMOS_SME l=0.35u w=1u
 M3 N001 IN n_inv VDD PMOS_SME l=0.35u w=2u
 M4 N002 IN VSS VSS NMOS_SME l=0.35u w=1u
-M5 VSS n_inv N001 VDD PMOS_SME l=0.35u w=0.4u
+M5 VSS n_inv N001 VDD PMOS_SME l=0.35u w=0.8u
 M6 N002 n_inv VDD VSS NMOS_SME l=0.35u w=0.4u
 X§X1 n_inv OUT VDD VSS my_inverter
 .inc library.mod
