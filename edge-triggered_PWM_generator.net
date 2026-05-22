@@ -58,7 +58,7 @@ X§X2 NOT_Q R Q VDD VSS my_nor
 
 .subckt my_dll _RESET CLK 180degCLK 270degCLK 90degCLK VDD VSS
 X§X1 feedback_clk CLK down up VDD VSS _RESET my_pfd
-X§X3 down MP_01 up vctrl VDD VSS my_cp
+X§X3 down up vctrl VDD VSS my_cp
 M1 vctrl rst_h VSS VSS NMOS_SME l=0.35u w=0.4u
 X§X2 _RESET rst_h VDD VSS my_inverter
 X§X4 CLK vctrl 180clk 270clk 90clk feedback_clk VDD VSS my_vcdl
@@ -94,7 +94,7 @@ M5 VDD N001 N001 VDD PMOS_SME l=2u w=4u
 M6 N001 iref VSS VSS NMOS_SME l=2u w=2u
 M7 iref iref VSS VSS NMOS_SME l=2u w=2u
 X§X1 UP N003 VDD VSS my_inverter
-M8 VDD VSS iref VDD PMOS_SME l=220u w=0.4u
+M8 VDD VSS iref VDD PMOS_SME l=100u w=0.4u
 .inc library.mod
 .ends my_cp
 
@@ -207,7 +207,7 @@ M6 VDD VBP N001 VDD PMOS_SME l=2u w=2u
 .lib C:\Users\lucasp\AppData\Local\LTspice\lib\cmp\standard.mos
 .param Iref 5uA
 .inc library.mod
-.tran 0 200u 0 200n
+.tran 0 300u 0 200n
 * Edge-triggered Pulse-Width Modulation (PWM) generator
 * rise/fall time (10% -> 90%)\nshould be below 10 ns
 * Sweep Iref in {1uA, 3uA, 5uA, 7uA, 9uA}
