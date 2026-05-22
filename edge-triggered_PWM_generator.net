@@ -59,7 +59,7 @@ X§X2 NOT_Q R Q VDD VSS my_nor
 
 .subckt my_dll _RESET CLK CP_IREF 90degCLK VDD VSS 180degCLK 270degCLK
 X§X1 feedback_clk CLK down up VDD VSS _RESET my_pfd
-C1 vctrl VSS 2p
+C1 vctrl VSS 1p
 X§X3 down N001 up vctrl VDD VSS my_cp
 M1 NC_01 rst_h VSS VSS NMOS_SME l=0.35u w=0.4u
 X§X2 _RESET rst_h VDD VSS my_inverter
@@ -70,7 +70,7 @@ X§X7 180clk 180degCLK VDD VSS my_schmitt_trigger
 X§X8 270clk 270degCLK VDD VSS my_schmitt_trigger
 X§X9 NC_02 NC_03 NC_04 NC_05 NC_06 NC_07 NC_08 DFRRLHDX1
 .inc library.mod
-.ic V(vctrl)=0.33
+.ic V(vctrl)=0.9
 .ends my_dll
 
 .subckt my_nor A B OUT VDD VSS
@@ -104,14 +104,14 @@ X§X1 UP N003 VDD VSS my_inverter
 .subckt my_vcdl REF_CLK V_CTRL 180_CLK 270_CLK 90_CLK OUT_CLK VDD VSS
 M9 VDD VBP VBP VDD PMOS_SME l=5u w=0.4u
 M10 VBP V_CTRL VSS VSS NMOS_SME l=5u w=0.4u
-X§X1 REF_CLK N001 VDD VSS VBP V_CTRL my_current_starved_inverter
-X§X2 90_CLK N003 VDD VSS VBP V_CTRL my_current_starved_inverter
-X§X3 180_CLK N005 VDD VSS VBP V_CTRL my_current_starved_inverter
-X§X4 270_CLK N007 VDD VSS VBP V_CTRL my_current_starved_inverter
-X§X5 N001 N002 VDD VSS VBP V_CTRL my_current_starved_inverter
-X§X6 N003 N004 VDD VSS VBP V_CTRL my_current_starved_inverter
-X§X7 N005 N006 VDD VSS VBP V_CTRL my_current_starved_inverter
-X§X8 N007 N008 VDD VSS VBP V_CTRL my_current_starved_inverter
+X§X1 REF_CLK N001 VDD VSS VBP VBN my_current_starved_inverter
+X§X2 90_CLK N003 VDD VSS VBP VBN my_current_starved_inverter
+X§X3 180_CLK N005 VDD VSS VBP VBN my_current_starved_inverter
+X§X4 270_CLK N007 VDD VSS VBP VBN my_current_starved_inverter
+X§X5 N001 N002 VDD VSS VBP VBN my_current_starved_inverter
+X§X6 N003 N004 VDD VSS VBP VBN my_current_starved_inverter
+X§X7 N005 N006 VDD VSS VBP VBN my_current_starved_inverter
+X§X8 N007 N008 VDD VSS VBP VBN my_current_starved_inverter
 M1 N_REF N011 VSS VSS NMOS_SME l=2u w=4u
 M2 N_REF N_REF VSS VSS NMOS_SME l=2u w=1u
 M3 N010 N_REF VSS VSS NMOS_SME l=2u w=1u
@@ -121,6 +121,16 @@ X§X9 N002 90_CLK VDD VSS my_schmitt_trigger
 X§X10 N004 180_CLK VDD VSS my_schmitt_trigger
 X§X11 N006 270_CLK VDD VSS my_schmitt_trigger
 X§X12 N008 OUT_CLK VDD VSS my_schmitt_trigger
+C1 N002 VSS 1p
+C2 N004 VSS 1p
+C3 N006 VSS 1p
+C4 N008 VSS 1p
+C5 N001 VSS 1p
+C6 N003 VSS 1p
+C7 N005 VSS 1p
+C8 N007 VSS 1p
+M11 VBN VBN VSS VSS NMOS_SME l=5u w=0.4u
+M12 VDD VBP VBN VDD PMOS_SME l=5u w=0.4u
 .inc library.mod
 .ends my_vcdl
 
@@ -186,8 +196,8 @@ X§X2 N001 OUT VDD VSS my_inverter
 .ends my_and
 
 .subckt my_current_starved_inverter IN OUT VDD VSS VBP VBN
-M3 N002 IN OUT VDD PMOS_SME l=0.35u w=1u
-M4 OUT IN N003 VSS NMOS_SME l=0.35u w=1u
+M3 N002 IN OUT VDD PMOS_SME l=0.35u w=0.4u
+M4 OUT IN N003 VSS NMOS_SME l=0.35u w=0.4u
 M1 N001 VSS N002 VDD PMOS_SME l=2u w=2u
 M2 N003 VDD N004 VSS NMOS_SME l=2u w=0.4u
 M5 N004 VBN VSS VSS NMOS_SME l=2u w=0.4u
@@ -200,7 +210,7 @@ M6 VDD VBP N001 VDD PMOS_SME l=2u w=2u
 .lib C:\Users\lucasp\AppData\Local\LTspice\lib\cmp\standard.mos
 .param Iref 5uA
 .inc library.mod
-.tran 0 500u 0 20n
+.tran 0 1200u 0 200n
 * Edge-triggered Pulse-Width Modulation (PWM) generator
 * rise/fall time (10% -> 90%)\nshould be below 10 ns
 * Sweep Iref in {1uA, 3uA, 5uA, 7uA, 9uA}
