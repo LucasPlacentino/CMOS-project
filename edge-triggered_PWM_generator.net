@@ -124,7 +124,7 @@ M6 VSS cap_3_2 VSS VSS NMOS_SME l={CAP_L} w={CAP_W}
 M7 VSS cap_4_1 VSS VSS NMOS_SME l={CAP_L} w={CAP_W}
 M8 VSS cap_4_2 VSS VSS NMOS_SME l={CAP_L} w={CAP_W}
 .inc library.mod
-.param CAP_L=10u
+.param CAP_L=10u CAP_W=11u
 .ends my_vcdl
 
 .subckt my_schmitt_trigger IN OUT VDD VSS
@@ -224,6 +224,5 @@ M6 VDD VBP N001 VDD PMOS_SME l=2u w=2u
 * "include an asynchronous active low reset (via an additional voltage source which is either high (3.3V) or low (0V) over time)"
 * use the inverter's\n1.65V threshold
 * LOW for 5u then HIGH indefinitely
-.step param CAP_W list 12u 12.1u 12.2u 12.3u
 .backanno
 .end
