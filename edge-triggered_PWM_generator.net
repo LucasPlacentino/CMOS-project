@@ -65,7 +65,7 @@ X§X4 CLK vctrl 180clk 270clk 90clk feedback_clk VDD VSS my_vcdl
 X§X6 90clk 90degCLK VDD VSS my_schmitt_trigger
 X§X7 180clk 180degCLK VDD VSS my_schmitt_trigger
 X§X8 270clk 270degCLK VDD VSS my_schmitt_trigger
-M2 VSS vctrl VSS VSS NMOS_SME l=10u w=22u
+M2 vctrl VSS vctrl vctrl PMOS_SME l=10u w=22u
 .inc library.mod
 .ends my_dll
 
@@ -78,23 +78,27 @@ M4 OUT A VSS VSS NMOS_SME l=0.35u w=0.4u
 .ends my_nor
 
 .subckt my_pfd FDBCK REF DOWN UP VDD VSS _RESET
-X§X1 VDD REF N001 NC_01 UP VDD VSS DFRRLHDX1
-X§X2 VDD FDBCK N001 NC_02 DOWN VDD VSS DFRRLHDX1
+X§X1 VDD REF ff_reset NC_01 UP VDD VSS DFRRLHDX1
+X§X2 VDD FDBCK ff_reset NC_02 DOWN VDD VSS DFRRLHDX1
 X§X3 UP DOWN reset VDD VSS my_nand
-X§X4 _RESET reset N001 VDD VSS my_and
+X§X4 _RESET N001 ff_reset VDD VSS my_and
+X§X5 reset N002 VDD VSS my_buffer
+X§X6 N002 N001 VDD VSS my_buffer
 .inc library.mod
 .ends my_pfd
 
 .subckt my_cp DOWN UP OUT VDD VSS
 M1 VDD N001 N002 VDD PMOS_SME l=5u w=0.8u
-M2 OUT DOWN N004 VSS NMOS_SME l=0.35u w=0.4u
+M2 OUT DOWN_delayed N004 VSS NMOS_SME l=0.35u w=0.4u
 M3 N002 N003 OUT VDD PMOS_SME l=0.35u w=0.4u
 M4 N004 iref VSS VSS NMOS_SME l=5u w=0.4u
-M5 VDD N001 N001 VDD PMOS_SME l=2u w=4u
-M6 N001 iref VSS VSS NMOS_SME l=2u w=2u
-M7 iref iref VSS VSS NMOS_SME l=2u w=2u
+M5 VDD N001 N001 VDD PMOS_SME l=5u w=16u
+M6 N001 iref VSS VSS NMOS_SME l=5u w=8u
+M7 iref iref VSS VSS NMOS_SME l=5u w=8u
 X§X1 UP N003 VDD VSS my_inverter
 M8 VDD VSS iref VDD PMOS_SME l=100u w=0.4u
+M9 DOWN VDD DOWN_delayed VSS NMOS_SME l=0.35u w=0.4u
+M10 DOWN VSS DOWN_delayed VDD PMOS_SME l=0.35u w=0.4u
 .inc library.mod
 .ends my_cp
 
@@ -187,6 +191,11 @@ X§X1 A B N001 VDD VSS my_nand
 X§X2 N001 OUT VDD VSS my_inverter
 .inc library.mod
 .ends my_and
+
+.subckt my_buffer IN OUT VDD VSS
+X§X1 IN N001 VDD VSS my_inverter
+X§X2 N001 OUT VDD VSS my_inverter
+.ends my_buffer
 
 .subckt my_current_starved_inverter IN OUT VDD VSS VBP VBN
 M3 N002 IN OUT VDD PMOS_SME l=0.35u w=1.2u
