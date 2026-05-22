@@ -101,34 +101,30 @@ M8 VDD VSS iref VDD PMOS_SME l=100u w=0.4u
 .subckt my_vcdl REF_CLK V_CTRL 180_CLK 270_CLK 90_CLK OUT_CLK VDD VSS
 M9 VDD VBP VBP VDD PMOS_SME l=2u w=2u
 M10 VBP V_CTRL VSS VSS NMOS_SME l=2u w=0.4u
-X§X1 REF_CLK N001 VDD VSS VBP VBN my_current_starved_inverter
-X§X2 90_CLK N003 VDD VSS VBP VBN my_current_starved_inverter
-X§X3 180_CLK N005 VDD VSS VBP VBN my_current_starved_inverter
-X§X4 270_CLK N007 VDD VSS VBP VBN my_current_starved_inverter
-X§X5 N001 N002 VDD VSS VBP VBN my_current_starved_inverter
-X§X6 N003 N004 VDD VSS VBP VBN my_current_starved_inverter
-X§X7 N005 N006 VDD VSS VBP VBN my_current_starved_inverter
-X§X8 N007 N008 VDD VSS VBP VBN my_current_starved_inverter
-M1 N_REF N011 VSS VSS NMOS_SME l=2u w=4u
-M2 N_REF N_REF VSS VSS NMOS_SME l=2u w=1u
-M3 N010 N_REF VSS VSS NMOS_SME l=2u w=1u
-M5 VDD N_REF N_REF VDD PMOS_SME l=2u w=0.4u
-M6 VDD N_REF N009 VDD PMOS_SME l=2u w=2u
-X§X9 N002 90_CLK VDD VSS my_schmitt_trigger
-X§X10 N004 180_CLK VDD VSS my_schmitt_trigger
-X§X11 N006 270_CLK VDD VSS my_schmitt_trigger
-X§X12 N008 OUT_CLK VDD VSS my_schmitt_trigger
-C1 N002 VSS 500f
-C2 N004 VSS 500f
-C3 N006 VSS 500f
-C4 N008 VSS 500F
-C5 N001 VSS 500f
-C6 N003 VSS 500f
-C7 N005 VSS 500F
-C8 N007 VSS 500f
+X§X1 REF_CLK cap_1_1 VDD VSS VBP VBN my_current_starved_inverter
+X§X2 90_CLK cap_2_1 VDD VSS VBP VBN my_current_starved_inverter
+X§X3 180_CLK cap_3_1 VDD VSS VBP VBN my_current_starved_inverter
+X§X4 270_CLK cap_4_1 VDD VSS VBP VBN my_current_starved_inverter
+X§X5 cap_1_1 cap_1_2 VDD VSS VBP VBN my_current_starved_inverter
+X§X6 cap_2_1 cap_2_2 VDD VSS VBP VBN my_current_starved_inverter
+X§X7 cap_3_1 cap_3_2 VDD VSS VBP VBN my_current_starved_inverter
+X§X8 cap_4_1 cap_4_2 VDD VSS VBP VBN my_current_starved_inverter
+X§X9 cap_1_2 90_CLK VDD VSS my_schmitt_trigger
+X§X10 cap_2_2 180_CLK VDD VSS my_schmitt_trigger
+X§X11 cap_3_2 270_CLK VDD VSS my_schmitt_trigger
+X§X12 cap_4_2 OUT_CLK VDD VSS my_schmitt_trigger
 M11 VBN VBN VSS VSS NMOS_SME l=2u w=0.4u
 M12 VDD VBP VBN VDD PMOS_SME l=2u w=2u
+M4 VSS cap_1_1 VSS VSS NMOS_SME l={CAP_L} w={CAP_W}
+M1 VSS cap_1_2 VSS VSS NMOS_SME l={CAP_L} w={CAP_W}
+M2 VSS cap_2_1 VSS VSS NMOS_SME l={CAP_L} w={CAP_W}
+M3 VSS cap_2_2 VSS VSS NMOS_SME l={CAP_L} w={CAP_W}
+M5 VSS cap_3_1 VSS VSS NMOS_SME l={CAP_L} w={CAP_W}
+M6 VSS cap_3_2 VSS VSS NMOS_SME l={CAP_L} w={CAP_W}
+M7 VSS cap_4_1 VSS VSS NMOS_SME l={CAP_L} w={CAP_W}
+M8 VSS cap_4_2 VSS VSS NMOS_SME l={CAP_L} w={CAP_W}
 .inc library.mod
+.param CAP_L=10u
 .ends my_vcdl
 
 .subckt my_schmitt_trigger IN OUT VDD VSS
@@ -228,5 +224,6 @@ M6 VDD VBP N001 VDD PMOS_SME l=2u w=2u
 * "include an asynchronous active low reset (via an additional voltage source which is either high (3.3V) or low (0V) over time)"
 * use the inverter's\n1.65V threshold
 * LOW for 5u then HIGH indefinitely
+.step param CAP_W list 12u 12.1u 12.2u 12.3u
 .backanno
 .end
