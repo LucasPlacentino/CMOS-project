@@ -14,12 +14,13 @@ C1 N001 0 20f
 C2 N002 0 20f
 C3 N003 0 20f
 C4 N004 0 20f
-X§X7 st_sig N005 VDD 0 my_inverter
 X§X6 edge_sig input st_sig VDD 0 my_sawtooth_gen
-X§X8 N006 edge_sig NC_01 weak_pwm VDD 0 my_sr_latch
-X§X9 N005 N006 VDD 0 my_inverter
+X§X9 N007 edge_sig NC_01 weak_pwm VDD 0 my_sr_latch
 V4 _reset 0 PWL(0 0 1.1u 0 1.110u 3.3 1000m 3.3)
 X§X10 _reset CLK 180deg_CLK 270deg_CLK 90deg_CLK VDD 0 my_dll
+X§X7 st_sig N006 VDD 0 my_balanced_inverter
+X§X8 N006 N007 VDD 0 my_balanced_inverter
+V3 N005 0 1.65
 
 * block symbol definitions
 .subckt my_xor A B OUT VDD VSS
@@ -43,10 +44,19 @@ M4 OUT IN VSS VSS NMOS_SME l=0.35u w=0.4u
 .ends my_inverter
 
 .subckt my_sawtooth_gen IN IREF OUT VDD VSS
-M1 VDD IREF OUT VDD PMOS_SME l=2u w=0.4u
-C1 OUT VSS 272.7f
+M1 VDD IREF OUT VDD PMOS_SME l=2u w=1u
+C1 OUT VSS 194.8f
 M2 OUT IN VSS VSS NMOS_SME l=0.35u w=1.8u
-M3 VDD IREF IREF VDD PMOS_SME l=2u w=4u
+M3 VDD IREF IREF VDD PMOS_SME l=2u w=10u
+M4 VDD IREF IREF VDD PMOS_SME l=2u w=1u
+M5 VDD IREF IREF VDD PMOS_SME l=2u w=1u
+M6 VDD IREF IREF VDD PMOS_SME l=2u w=1u
+M7 VDD IREF IREF VDD PMOS_SME l=2u w=1u
+M8 VDD IREF IREF VDD PMOS_SME l=2u w=1u
+M9 VDD IREF IREF VDD PMOS_SME l=2u w=1u
+M10 VDD IREF IREF VDD PMOS_SME l=2u w=1u
+M11 VDD IREF IREF VDD PMOS_SME l=2u w=1u
+M12 VDD IREF IREF VDD PMOS_SME l=2u w=1u
 .inc library.mod
 .ends my_sawtooth_gen
 
@@ -68,6 +78,12 @@ X§X8 270clk 270degCLK VDD VSS my_schmitt_trigger
 M2 vctrl VSS vctrl vctrl PMOS_SME l=10u w=22u
 .inc library.mod
 .ends my_dll
+
+.subckt my_balanced_inverter IN OUT VDD VSS
+M3 VDD IN OUT VDD PMOS_SME l=0.35u w=1u
+M4 OUT IN VSS VSS NMOS_SME l=0.35u w=0.4u
+.inc library.mod
+.ends my_balanced_inverter
 
 .subckt my_nor A B OUT VDD VSS
 M1 VDD A N001 VDD PMOS_SME l=0.35u w=0.4u
@@ -210,9 +226,9 @@ M6 VDD VBP N001 VDD PMOS_SME l=2u w=2.35u
 .model NMOS NMOS
 .model PMOS PMOS
 .lib C:\Users\lucasp\AppData\Local\LTspice\lib\cmp\standard.mos
-.param Iref 5uA
+.param Iref_bk 5uA
 .inc library.mod
-.tran 0 200u 0 20n
+.tran 0 20u 0 20n
 * Edge-triggered Pulse-Width Modulation (PWM) generator
 * rise/fall time (10% -> 90%)\nshould be below 10 ns
 * Sweep Iref in {1uA, 3uA, 5uA, 7uA, 9uA}
@@ -232,6 +248,8 @@ M6 VDD VBP N001 VDD PMOS_SME l=2u w=2.35u
 * EXTRA FEATURES
 * "include an asynchronous active low reset (via an additional voltage source which is either high (3.3V) or low (0V) over time)"
 * use the inverter's\n1.65V threshold
-* LOW for 5u then HIGH indefinitely
+* LOW for a very short while (e.g. 1.1us) then HIGH indefinitely
+.step param Iref 1u 9uA 2uA
+* TODO: DELETE\n(just for graph)
 .backanno
 .end
