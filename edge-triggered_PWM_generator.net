@@ -45,7 +45,7 @@ M4 OUT IN VSS VSS NMOS_SME l=0.35u w=0.4u
 
 .subckt my_sawtooth_gen IN IREF OUT VDD VSS
 M1 VDD N001 N002 VDD PMOS_SME l=5u w=1u
-C1 OUT VSS 272.7f
+C1 OUT VSS 200.5f
 M2 OUT IN VSS VSS NMOS_SME l=0.35u w=1.8u
 M3 VDD N001 N001 VDD PMOS_SME l=5u w=10u
 M4 N001 IREF IREF VDD PMOS_SME l=5u w=10u
@@ -244,6 +244,6 @@ M6 VDD VBP N001 VDD PMOS_SME l=2u w=2.35u
 * LOW for a very short while (e.g. 1.1us) then HIGH indefinitely
 .step param Iref 1u 9uA 2uA
 * TODO: DELETE\n(just for graph)
-.meas TRAN t_thresh TRIG V(st_sig)=1.65
+.meas TRAN t_thresh TRIG V(weak_pwm)=1.65
 .backanno
 .end
