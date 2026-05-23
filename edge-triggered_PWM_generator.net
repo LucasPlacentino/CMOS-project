@@ -47,7 +47,7 @@ M4 OUT IN VSS VSS NMOS_SME l=0.35u w=0.4u
 M1 VDD IREF OUT VDD PMOS_SME l=2u w=1u
 C1 OUT VSS 272.7f
 M2 OUT IN VSS VSS NMOS_SME l=0.35u w=1.8u
-M3 VDD IREF IREF VDD PMOS_SME l=2u w=10u
+M3 VDD IREF IREF VDD PMOS_SME l=5u w=10u
 M4 VDD IREF IREF VDD PMOS_SME l=2u w=1u
 M5 VDD IREF IREF VDD PMOS_SME l=2u w=1u
 M6 VDD IREF IREF VDD PMOS_SME l=2u w=1u
@@ -251,5 +251,6 @@ M6 VDD VBP N001 VDD PMOS_SME l=2u w=2.35u
 * LOW for a very short while (e.g. 1.1us) then HIGH indefinitely
 .step param Iref 1u 9uA 2uA
 * TODO: DELETE\n(just for graph)
+.meas TRAN t_thresh TRIG V(st_sig)=1.65
 .backanno
 .end
