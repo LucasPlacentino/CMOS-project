@@ -1,12 +1,16 @@
 # CMOS-project
-CMOS lab project (for the Sensors &amp; Microsystem Electronics course at BRUFACE)
+CMOS lab project (for the Sensors &amp; Microsystem Electronics course at BRUFACE)  
 
-Open and run the `edge-triggered_PWM_generator.asc` LTspice file to simulate.  
+Open and run the **`edge-triggered_PWM_generator.asc`** LTspice file to simulate.  
 
-Both the main part and the extra DLL feature are in the same file (and can be simulated together).
+Both the main part and the extra DLL feature are in the same file (and can be simulated together).  
 
-By Lucas Placentino, 2026.
+To be able to scope signals inside components, don't forget to, in LTspice's `Tools`->`Settings`->`Save Defaults`, **enable `Save Subcircuit Node Voltages[*]` and `Save Subcircuit Device Currents[*]`**.  
 
+_By Lucas Placentino, 2026._  
+
+-------------------
+-------------------
 -------------------
 
 ### notes
