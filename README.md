@@ -1,6 +1,13 @@
 # CMOS-project
 CMOS lab project (for the Sensors &amp; Microsystem Electronics course at BRUFACE)
 
+Open and run the `edge-triggered_PWM_generator.asc` LTspice file to simulate.  
+
+Both the main part and the extra DLL feature are in the same file (and can be simulated together).
+
+By Lucas Placentino, 2026.
+
+-------------------
 
 ### notes
 
@@ -16,5 +23,5 @@ CMOS lab project (for the Sensors &amp; Microsystem Electronics course at BRUFAC
 
 - https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5731328  
 
-
+- ...
 
