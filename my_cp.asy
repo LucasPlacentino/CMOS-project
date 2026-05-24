@@ -1,7 +1,6 @@
 Version 4
 SymbolType BLOCK
 RECTANGLE Normal -96 -64 112 64
-TEXT -116 -116 Left 2 .subckt my_cp DOWN UP OUT VDD VSS
 WINDOW 0 -59 -64 Bottom 2
 PIN -96 0 LEFT 8
 PINATTR PinName DOWN
