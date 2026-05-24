@@ -1,7 +1,0 @@
-.subckt COMP VCAP RESET_OUT VDD VSS
-* Skewed inverter. W_p is adjusted to shift V_sp to the exact required threshold.
-M1 V_INV VCAP VSS VSS NMOS_SME L=0.35u W=0.4u
-M2 V_INV VCAP VDD VDD PMOS_SME L=0.35u W=1.5u 
-* Squaring inverter to ensure clean logic levels for the latch
-X1 V_INV RESET_OUT VDD VSS INV
-.ends COMP
