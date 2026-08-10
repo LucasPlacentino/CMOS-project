@@ -1,5 +1,5 @@
 # CMOS-project
-CMOS lab project (for the Sensors &amp; Microsystem Electronics course at BRUFACE)  
+CMOS lab project (for the Sensors &amp; Microsystem Electronics course at BRUFACE, achieved a grade of 19.5/20 after oral defense, AY 2025-2026)  
 
 Open and run the **`edge-triggered_PWM_generator.asc`** LTspice file to simulate.  
 
